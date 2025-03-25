@@ -9,7 +9,7 @@ def get_vertices():
 def get_adjacency_matrix(vertices):
     n = len(vertices)
     matrix = []
-    print("Ingrese la matriz de adyacencia fila por fila, separando los valores con espacios:")
+    print("Ingrese la matriz de adyacencia fila por fila, separando los valores con espacios (Ejemplo: 0 0 0 0):")
     for i in range(n):
         while True:
             try:
