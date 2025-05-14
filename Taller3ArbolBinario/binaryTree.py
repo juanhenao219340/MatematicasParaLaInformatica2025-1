@@ -34,6 +34,9 @@ class BinaryTree:
                         print("Ese nodo no fue ingresado. Intente nuevamente.")
                         continue
                     if l_val != 0:
+                        if self.already_children(l_val, node):
+                            print("Este nodo ya es hijo de otro. No puede tener múltiples padres.")
+                            continue
                         node.set_left(self.nodes[l_val])
                     break
                 except ValueError:
@@ -49,6 +52,9 @@ class BinaryTree:
                         print("Ese nodo no fue ingresado. Intente nuevamente.")
                         continue
                     if r_val != 0:
+                        if self.already_children(r_val, node):
+                            print("Este nodo ya es hijo de otro. No puede tener múltiples padres.")
+                            continue
                         node.set_right(self.nodes[r_val])
                     break
                 except ValueError:
@@ -95,6 +101,13 @@ class BinaryTree:
             add_edges(node.get_right(), node, x + dx, y - 1, dx / 2)
 
         add_edges(self.root)
+
+        unused_x = 0
+        for value, node in self.nodes.items():
+            if value not in G.nodes:
+                G.add_node(value)
+                pos[value] = (unused_x, -5)  # Ubicación abajo y separada
+                unused_x += 1
 
         plt.figure(figsize=(10, 6))
         nx.draw(
@@ -201,3 +214,11 @@ class BinaryTree:
         plt.title("Nodos aislados (sin padre ni hijos)")
         plt.show()
 
+    def already_children(self, child_value, current_node):
+        for node in self.nodes.values():
+            if node == current_node:
+                continue  # No comparar con sí mismo
+            if (node.get_left() and node.get_left().get_value() == child_value) or \
+            (node.get_right() and node.get_right().get_value() == child_value):
+                return True
+        return False
